@@ -1,0 +1,29 @@
+# @format
+
+name: CI
+on: [push]
+
+# RUNNING_ON_PROD KUBECONFIG
+
+jobs:
+  plasmic-ci:
+    runs-on: ubuntu-latest
+    # You need to use the INSTALLATION_NAME from the previous step
+    #    container: plasmicapp/arc-runner
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 8
+      - uses: actions/cache@v3
+        with:
+          path: |
+            data
+          key: ${{ runner.os }}-yarn-${{ hashFiles('data') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-${{ hashFiles('data') }}
+            ${{ runner.os }}-yarn-
+      - run: |
+          mkdir -p data
+          cat data/hi || true
+          echo hi > data/hi
