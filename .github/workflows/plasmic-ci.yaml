@@ -1,0 +1,21 @@
+# @format
+
+name: CI
+on: [push, workflow_dispatch]
+
+# RUNNING_ON_PROD KUBECONFIG
+
+jobs:
+  plasmic-ci:
+    runs-on: ubuntu-latest
+    # You need to use the INSTALLATION_NAME from the previous step
+    #    container: plasmicapp/arc-runner
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 8
+      - run: false
+        id: main-step
+      - run: echo ${{ steps.main-step.outcome }}
+        if: always()
